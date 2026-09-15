@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Tulisan Manusia - Pitch Deck</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    body {
+      background-color: #0b1120;
+      color: #f8fafc;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #1e293b;
+      color: #e2b357;
+      border: 1px solid #334155;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .theme-toggle:hover {
+      background: #e2b357;
+      color: #0f172a;
+    }
+    .slide {
+      width: 100%;
+      max-width: 800px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(226,179,87,0.08) 0%, rgba(15,23,42,0) 70%);
+      border: 1px solid rgba(226,179,87,0.15);
+      border-radius: 50%;
+      backdrop-filter: blur(5px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .slide > * {
+      position: relative;
+      z-index: 1;
+    }
+    .logo-bubble {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 15px auto;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), rgba(226, 179, 87, 0.05));
+      border: 1px solid rgba(226, 179, 87, 0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      backdrop-filter: blur(4px);
+    }
+    .logo-bubble span {
+      font-weight: bold;
+      color: #e2b357;
+      font-size: 13px;
+    }
+    h1 {
+      font-size: 22px;
+      color: #f8fafc;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    h2 {
+      font-size: 18px;
+      color: #e2b357;
+      margin-bottom: 12px;
+    }
+    p, li {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .gold {
+      color: #e2b357;
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      border: 1px solid #1e293b;
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 13px;
+    }
+    th {
+      background: #1e293b;
+      color: #e2b357;
+    }
+    td {
+      color: #cbd5e1;
+    }
+    .card {
+      background: rgba(30, 41, 59, 0.6);
+      border-left: 4px solid #e2b357;
+      padding: 12px;
+      border-radius: 0 8px 8px 0;
+      margin: 12px 0;
+    }
+
+    /* Model Grafik Trafik Batang (Bar Chart) */
+    .traffic-chart {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      height: 140px;
+      border-bottom: 2px solid #334155;
+      margin: 20px 0 10px 0;
+      padding-bottom: 5px;
+    }
+    .chart-bar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .chart-bar {
+      width: 40px;
+      background: linear-gradient(180deg, #e2b357 0%, #b8860b 100%);
+      border-radius: 6px 6px 0 0;
+      position: relative;
+      transition: height 0.5s ease;
+    }
+    .chart-bar.dip {
+      background: linear-gradient(180deg, #64748b 0%, #334155 100%);
+    }
+    .chart-val {
+      font-size: 11px;
+      color: #f8fafc;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .chart-label {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    /* Light Mode Styles */
+    body.light {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    body.light .theme-toggle {
+      background: #e2e8f0;
+      color: #1e3a8a;
+      border: 1px solid #cbd5e1;
+    }
+    body.light .slide {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    body.light h1, body.light h2 {
+      color: #1e3a8a;
+    }
+    body.light p, body.light td {
+      color: #475569;
+    }
+    body.light th {
+      background: #f1f5f9;
+      color: #1e3a8a;
+    }
+    body.light .card {
+      background: #f8fafc;
+      border-left: 4px solid #2563eb;
+    }
+    body.light .gold {
+      color: #2563eb;
+    }
+  </style>
+</head>
+<body id="body">
+
+  <button class="theme-toggle" id="toggleBtn" onclick="toggleTheme()" title="Ganti Mode">☀️</button>
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide" style="text-align: center; padding: 40px 15px;">
+    <div class="logo-bubble"><span>MTM</span></div>
+    <h1>Gagasanmu Berharga,<br><span class="gold">Kami Terbitkan dan Lindungi Sepenuhnya</span></h1>
+    <p style="margin-top: 12px;">Media Tulisan Manusia — Pitch Deck Profesional & Ekosistem Literasi Terpadu</p>
+    <p style="font-size: 12px; margin-top: 20px;">www.mediatulisanmanusia.online | IG: @mediatulisanmanusia</p>
+  </div>
+
+  <!-- SLIDE 2: TENTANG PERUSAHAAN & MRR -->
+  <div class="slide">
+    <h2>Tentang Perusahaan & Model Bisnis</h2>
+    <p><strong>Media Tulisan Manusia</strong> adalah startup kreatif yang bergerak di bidang layanan penerbitan buku profesional, manajemen kekayaan intelektual, dan solusi literasi terpadu.</p>
+    <div class="card">
+      <p class="gold" style="margin-bottom: 4px;">Kinerja Keuangan & Pendapatan Bulanan (MRR):</p>
+      <p>Pendapatan Bulanan Berulang <em>(Monthly Recurring Revenue / MRR)</em> startup kami berada di angka <span class="gold">Rp12.000.000</span> dari lini layanan penerbitan buku dan legalitas HKI.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: JARINGAN PEMASARAN & MITRA FREELANCE -->
+  <div class="slide">
+    <h2>Jaringan Pemasaran & Mitra Freelance</h2>
+    <p>Media Tulisan Manusia didukung oleh kekuatan jaringan pemasaran sebanyak <span class="gold">54 mitra freelance</span> yang terdistribusi secara strategis:</p>
+    <table>
+      <tr>
+        <th>Wilayah Operasional</th>
+        <th>Jumlah</th>
+        <th>Fokus Pasar & Kontribusi</th>
+      </tr>
+      <tr>
+        <td><strong>Malang Raya</strong></td>
+        <td>20 Orang</td>
+        <td>Komunitas akademisi kampus, dosen, guru, dan penulis lokal.</td>
+      </tr>
+      <tr>
+        <td><strong>Pasuruan & Sekitarnya</strong></td>
+        <td>14 Orang</td>
+        <td>Lembaga pendidikan sekolah, sastrawan daerah, dan pelajar.</td>
+      </tr>
+      <tr>
+        <td><strong>Surabaya & Sekitarnya</strong></td>
+        <td>20 Orang</td>
+        <td>Korporasi, instansi profesional, serta pasar komersial perkotaan.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- SLIDE 4: MODEL TRAFIK & PERKEMBANGAN USAHA -->
+  <div class="slide">
+    <h2>Model Trafik & Perkembangan Usaha</h2>
+    <p>Grafik batang yang mencerminkan fluktuasi naik dan turun secara realistis:</p>
+    
+    <!-- Visual Grafik Trafik -->
+    <div class="traffic-chart">
+      <div class="chart-bar-container">
+        <span class="chart-val">85%</span>
+        <div class="chart-bar" style="height: 85%;"></div>
+        <div class="chart-label">Q1<br><small>Tinggi</small></div>
+      </div>
+      <div class="chart-bar-container">
+        <span class="chart-val">60%</span>
+        <div class="chart-bar dip" style="height: 60%;"></div>
+        <div class="chart-label">Q2<br><small>Koreksi</small></div>
+      </div>
+      <div class="chart-bar-container">
+        <span class="chart-val">75%</span>
+        <div class="chart-bar" style="height: 75%;"></div>
+        <div class="chart-label">Q3<br><small>Rebound</small></div>
+      </div>
+      <div class="chart-bar-container">
+        <span class="chart-val">90%</span>
+        <div class="chart-bar" style="height: 90%;"></div>
+        <div class="chart-label">Q4<br><small>Puncak</small></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: STANDAR LEGALITAS & QRCBN -->
+  <div class="slide">
+    <h2>Standar Legalitas & QRCBN</h2>
+    <p>Media Tulisan Manusia sepenuhnya menggunakan sistem penomoran modern yang terintegrasi digital.</p>
+    <div class="card">
+      <p class="gold" style="margin-bottom: 4px;">Komitmen Penggunaan QRCBN:</p>
+      <p>Kami tidak menggunakan ISBN konvensional, melainkan sepenuhnya menggunakan <span class="gold">QRCBN (Quick Response Code Book Number)</span> untuk kemudahan verifikasi digital instan, akses cepat, dan efisiensi legalitas HKI.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: PENUTUP & KONTAK -->
+  <div class="slide" style="text-align: center; padding: 40px 15px;">
+    <div class="logo-bubble"><span>MTM</span></div>
+    <h2>Kontak & Layanan Resmi</h2>
+    <p style="margin-top: 8px;"><strong>Alamat:</strong> Jl. Raya Sukorejo No.101, Genengan Wetan, Glagahsari, Pasuruan, Jawa Timur</p>
+    <p style="margin-top: 6px;"><strong>WhatsApp / CS:</strong> <span class="gold">0882-9444-8222</span></p>
+    <p style="margin-top: 6px;"><strong>Situs Web:</strong> www.mediatulisanmanusia.online</p>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.getElementById('body');
+      const btn = document.getElementById('toggleBtn');
+      body.classList.toggle('light');
+      if (body.classList.contains('light')) {
+        btn.innerHTML = '🌙';
+      } else {
+        btn.innerHTML = '☀️';
+      }
+    }
+  </script>
+</body>
+</html>
